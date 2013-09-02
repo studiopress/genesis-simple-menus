@@ -110,7 +110,7 @@ class Genesis_Simple_Menus {
 		<tr class="form-field">
 			<th scope="row" valign="top">
 				<?php		
-				$this->print_menu_select( "meta[{$this->field_name}]", $tag->meta[$this->field_name], '', 'padding-right: 10px;', '</th><td>' ); ?>
+				$this->print_menu_select( "genesis-meta[{$this->field_name}]", $tag->meta[$this->field_name], '', 'padding-right: 10px;', '</th><td>' ); ?>
 			</td>
 		</tr>
 	</table>
