@@ -3,9 +3,10 @@
 Plugin Name: Genesis Simple Menus
 Plugin URI: http://www.studiopress.com/plugins/simple-menus
 Description: Genesis Simple Menus allows you to select a WordPress menu for secondary navigation on individual posts/pages.
-Version: 0.3
+Version: 0.3.0.1
 Author: Ron Rennick
 Author URI: http://ronandandrea.com/
+Text Domain: genesis-simple-menus
 */
 /* Copyright:	(C) 2010 Ron Rennick, All rights reserved.
 
@@ -64,7 +65,7 @@ class Genesis_Simple_Menus {
 		add_action( 'admin_menu',	array( $this, 'admin_menu' ) );
 		add_action( 'save_post',	array( $this, 'save_post' ), 10, 2 );
 		add_action( 'wp_head',		array( $this, 'wp_head' ) );
-		
+
 		$_taxonomies = get_taxonomies( array( 'show_ui' => true, 'public' => true ) );
 		$this->taxonomies = apply_filters( 'genesis_simple_menus_taxonomies', array_keys( $_taxonomies ) );
 
@@ -83,7 +84,7 @@ class Genesis_Simple_Menus {
 		foreach( (array) get_post_types( array( 'public' => true ) ) as $type ) {
 
 			if( $type == 'post' || $type == 'page' || post_type_supports( $type, 'genesis-simple-menus' ) )
-				add_meta_box( $this->handle, __( 'Secondary Navigation', 'genesis' ), array( $this, 'metabox' ), $type, 'side', 'low' );
+				add_meta_box( $this->handle, __( 'Secondary Navigation', 'genesis-simple-menus' ), array( $this, 'metabox' ), $type, 'side', 'low' );
 
 		}
 	}
@@ -112,7 +113,7 @@ class Genesis_Simple_Menus {
 	<table class="form-table">
 		<tr class="form-field">
 			<th scope="row" valign="top">
-				<?php		
+				<?php
 				$this->print_menu_select( "genesis-meta[{$this->field_name}]", $tag->meta[$this->field_name], '', 'padding-right: 10px;', '</th><td>' ); ?>
 			</td>
 		</tr>
@@ -131,7 +132,7 @@ class Genesis_Simple_Menus {
 			$option_style = sprintf(' style="%s"', esc_attr( $option_style ) );
 
 		?>
-		<label for="<?php echo $field_name; ?>"><span><?php _e( 'Secondary Navigation', 'genesis' ); ?><span></label>
+		<label for="<?php echo $field_name; ?>"><span><?php _e( 'Secondary Navigation', 'genesis-simple-menus' ); ?><span></label>
 
 		<?php echo $after_label; ?>
 
@@ -187,7 +188,7 @@ class Genesis_Simple_Menus {
 		if ( is_category() && in_array( 'category', $this->taxonomies ) ) {
 
 			$term = get_term( get_query_var( 'cat' ), 'category' );
-		
+
 		} elseif ( is_tag() && in_array( 'post_tag', $this->taxonomies ) ) {
 
 			$term = get_term( get_query_var( 'tag_id' ), 'post_tag' );
