@@ -3,7 +3,7 @@
 Plugin Name: Genesis Simple Menus
 Plugin URI: http://www.studiopress.com/plugins/simple-menus
 Description: Genesis Simple Menus allows you to select a WordPress menu for secondary navigation on individual posts/pages.
-Version: 0.3.0.1
+Version: 0.4.0
 Author: Ron Rennick
 Author URI: http://ronandandrea.com/
 Text Domain: genesis-simple-menus
@@ -114,7 +114,7 @@ class Genesis_Simple_Menus {
 		<tr class="form-field">
 			<th scope="row" valign="top">
 				<?php
-				$this->print_menu_select( "genesis-meta[{$this->field_name}]", $tag->meta[$this->field_name], '', 'padding-right: 10px;', '</th><td>' ); ?>
+				$this->print_menu_select( "genesis-meta[{$this->field_name}]", get_term_meta( $tag->term_id, $this->field_name, true ), '', 'padding-right: 10px;', '</th><td>' ); ?>
 			</td>
 		</tr>
 	</table>
@@ -183,35 +183,10 @@ class Genesis_Simple_Menus {
 
 		}
 
-		$term = false;
-
-		if ( is_category() && in_array( 'category', $this->taxonomies ) ) {
-
-			$term = get_term( get_query_var( 'cat' ), 'category' );
-
-		} elseif ( is_tag() && in_array( 'post_tag', $this->taxonomies ) ) {
-
-			$term = get_term( get_query_var( 'tag_id' ), 'post_tag' );
-
-		} elseif( is_tax() ) {
-
-			foreach( $this->taxonomies as $tax ) {
-
-				if( $tax == 'post_tag' || $tax == 'category' )
-					continue;
-
-				if( is_tax( $tax ) ) {
-
-					$obj = get_queried_object();
-					$term = get_term( $obj->term_id, $tax );
-					break;
-
-				}
-			}
+		if ( is_category() || is_tag() || is_tax() ) {
+			$term       = get_queried_object();
+			$this->menu = get_term_meta( $term->term_id, $this->field_name, true );
 		}
-
-		if ( $term && isset( $term->meta[$this->field_name] ) )
-			$this->menu = $term->meta[$this->field_name];
 
 	}
 /*
