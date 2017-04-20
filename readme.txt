@@ -24,6 +24,11 @@ This plugin allows you to assign WordPress navigation menus to the secondary nav
 
 == Changelog ==
 
+= 1.0.0 =
+* Rewrite based on plugin boilerplate.
+* Better labeling for forms.
+* Full support for latest WordPress and Genesis.
+
 = 0.4.0 =
 * WordPress 4.4.2 & Genesis 2.2.7 compatibility
 
