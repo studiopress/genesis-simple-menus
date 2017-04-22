@@ -1,9 +1,9 @@
 === Genesis Simple Menus ===
-Contributors: wpmuguru
+Contributors: wpmuguru, nathanrice, studiopress
 Tags: genesis,genesiswp,studiopress,menu,navigation
-Requires at least: 3.6
-Tested up to: 3.6
-Stable tag: 0.2
+Requires at least: 4.4.2
+Tested up to: 4.4.2
+Stable tag: 0.4.0
 
 With Genesis, Simple Menus allows you to select a WP menu for secondary navigation on posts, pages, categories, tags or custom taxonomies.
 
@@ -23,6 +23,18 @@ This plugin allows you to assign WordPress navigation menus to the secondary nav
 1. Choose the menu you want to display by choosing it from the drop-down menu in the post/page or category/tag edit screen.
 
 == Changelog ==
+
+= 1.0.0 =
+* Rewrite based on plugin boilerplate.
+* Better labeling for forms.
+* Full support for latest WordPress and Genesis.
+
+= 0.4.0 =
+* WordPress 4.4.2 & Genesis 2.2.7 compatibility
+
+= 0.3 =
+* add check for secondary menu in use by theme
+* disable save on bulk edit
 
 = 0.1.5 =
 * permission check fix
