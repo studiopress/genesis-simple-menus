@@ -12,6 +12,16 @@ final class Genesis_Simple_Menus {
 	public $plugin_version = '1.0.0';
 
 	/**
+	 * Minimum Genesis Version.
+	 */
+	public $min_genesis_version = '2.4.2';
+
+	/**
+	 * Minimum WordPress version.
+	 */
+	public $min_wp_version = '4.7.2';
+
+	/**
 	 * The plugin textdomain, for translations.
 	 */
 	public $plugin_textdomain = 'genesis-simple-menus';
@@ -47,16 +57,6 @@ final class Genesis_Simple_Menus {
 	public $term;
 
 	/**
-	 * Minimum Genesis Version.
-	 */
-	public $min_genesis_version = '2.4.2';
-
-	/**
-	 * Minimum WordPress version.
-	 */
-	public $min_wp_version = '4.7.2';
-
-	/**
 	 * Constructor.
 	 *
 	 * @since 0.1.0
@@ -90,15 +90,17 @@ final class Genesis_Simple_Menus {
 	/**
 	 * Show admin notice if minimum requirements aren't met.
 	 *
-	 * @since 0.9.0
+	 * @since 1.0.0
 	 */
 	public function requirements_notice() {
 
 		if ( ! defined( 'PARENT_THEME_VERSION' ) || ! version_compare( PARENT_THEME_VERSION, $this->min_genesis_version, '>=' ) ) {
 
-			$action = defined( 'PARENT_THEME_VERSION' ) ? __( 'upgrade to', 'plugin-boilerplate' ) : __( 'install and activate', 'plugin-boilerplate' );
+			$plugin = get_plugin_data( $this->plugin_dir_path . 'simple-menu.php' );
 
-			$message = sprintf( __( 'This plugin requires WordPress %s and <a href="%s" target="_blank">Genesis %s</a>, or greater. Please %s the latest version of Genesis to use this plugin.', 'plugin-boilerplate' ), $this->min_wp_version, 'http://my.studiopress.com/?download_id=91046d629e74d525b3f2978e404e7ffa', $this->min_genesis_version, $action );
+			$action = defined( 'PARENT_THEME_VERSION' ) ? __( 'upgrade to', 'genesis-simple-menus' ) : __( 'install and activate', 'genesis-simple-menus' );
+
+			$message = sprintf( __( '%s requires WordPress %s and <a href="%s" target="_blank">Genesis %s</a>, or greater. Please %s the latest version of Genesis to use this plugin.', 'genesis-simple-menus' ), $plugin['Name'], $this->min_wp_version, 'http://my.studiopress.com/?download_id=91046d629e74d525b3f2978e404e7ffa', $this->min_genesis_version, $action );
 			echo '<div class="notice notice-warning"><p>' . $message . '</p></div>';
 
 		}
