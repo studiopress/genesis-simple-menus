@@ -31,7 +31,7 @@ class Genesis_Simple_Menus_Term {
 		/**
 		 * The supported taxonomies.
 		 *
-		 * An array of supported taxonomies. All public taxonomies by, by default.
+		 * An array of supported taxonomies. All public taxonomies, by default.
 		 *
 		 * @since 0.1.0
 		 *
