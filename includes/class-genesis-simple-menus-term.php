@@ -26,6 +26,18 @@ class Genesis_Simple_Menus_Term {
 	 */
 	public function init() {
 
+		// Add fields to the term edit form
+		add_action( 'admin_init', array( $this, 'add_edit_form' ) );
+
+	}
+
+	/**
+	 * Add fields to the term edit form. Added to public taxonomies only, by default.
+	 *
+	 * @since 1.0.0
+	 */
+	public function add_edit_form() {
+
 		$_taxonomies = get_taxonomies( array( 'show_ui' => true, 'public' => true ) );
 
 		/**
@@ -49,6 +61,11 @@ class Genesis_Simple_Menus_Term {
 
 	}
 
+	/**
+	 * The edit form fields markup.
+	 *
+	 * @since 1.0.0
+	 */
 	public function term_edit_form( $term, $taxonomy ) {
 
 		require_once( Genesis_Simple_Menus()->plugin_dir_path . 'includes/views/term-edit-field.php' );
