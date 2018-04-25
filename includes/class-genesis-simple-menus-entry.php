@@ -1,5 +1,11 @@
 <?php
 /**
+ * Genesis Simple Menus
+ *
+ * @package StudioPress\GenesisSimpleMenus
+ */
+
+/**
  * Entry settings.
  *
  * @since 1.0.0
@@ -8,26 +14,45 @@ class Genesis_Simple_Menus_Entry {
 
 	/**
 	 * The metabox handle.
+	 *
+	 * @var string
 	 */
 	public $handle = 'gsm-post-metabox';
 
 	/**
-	 * The meta key for the user specified menu.
+	 * The meta key for the user specified primary nav menu.
+	 *
+	 * @var string
 	 */
-	public $meta_key = '_gsm_menu';
+	public $primary_key = '_gsm_primary';
+
+	/**
+	 * The meta key for the user specified secondary nav menu.
+	 *
+	 * @var string
+	 */
+	public $secondary_key = '_gsm_secondary';
 
 	/**
 	 * The nonce action for saving entry meta.
+	 *
+	 * @var string
 	 */
 	public $nonce_action = 'gsm-post-metabox-save';
 
 	/**
 	 * The nonce key for saving entry meta.
+	 *
+	 * @var string
 	 */
 	public $nonce_key = 'gsm-post-metabox-nonce';
 
 	/**
 	 * Initialize.
+	 *
+	 * @since  1.0.0
+	 *
+	 * @return void
 	 */
 	public function init() {
 
@@ -38,15 +63,22 @@ class Genesis_Simple_Menus_Entry {
 
 	/**
 	 * Add metabox(es) to entry edit screens.
+	 *
+	 * @since  1.0.1
+	 *
+	 * @return void
 	 */
 	public function add_metabox() {
 
-		foreach( (array) get_post_types( array( 'public' => true ) ) as $type ) {
+		$types = get_post_types( array(
+			'public' => true,
+		) );
 
-			if ( $type == 'post' || $type == 'page' || post_type_supports( $type, 'genesis-simple-menus' ) ) {
+		foreach ( (array) $types as $type ) {
+
+			if ( 'post' === $type || 'page' === $type || post_type_supports( $type, 'genesis-simple-menus' ) ) {
 				add_meta_box( $this->handle, __( 'Navigation', 'genesis-simple-menus' ), array( $this, 'metabox' ), $type, 'side', 'low' );
 			}
-
 		}
 
 	}
@@ -54,7 +86,9 @@ class Genesis_Simple_Menus_Entry {
 	/**
 	 * The metabox content.
 	 *
-	 * @since 1.0.0
+	 * @since  1.0.0
+	 *
+	 * @return void
 	 */
 	public function metabox() {
 
@@ -65,7 +99,12 @@ class Genesis_Simple_Menus_Entry {
 	/**
 	 * Save entry meta on save post.
 	 *
-	 * @since 1.0.0
+	 * @since  1.0.0
+	 *
+	 * @param  string $post_id The post ID.
+	 * @param  int    $post    Post object or ID.
+	 *
+	 * @return void
 	 */
 	public function save_post( $post_id, $post ) {
 
@@ -75,7 +114,8 @@ class Genesis_Simple_Menus_Entry {
 
 		// Merge user submitted options with fallback defaults.
 		$data = wp_parse_args( $_POST['genesis_simple_menus'], array(
-			'_gsm_menu' => '',
+			'_gsm_primary'   => '',
+			'_gsm_secondary' => '',
 		) );
 
 		genesis_save_custom_fields( $data, $this->nonce_action, $this->nonce_key, $post );

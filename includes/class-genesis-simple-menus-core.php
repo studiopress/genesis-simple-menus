@@ -1,5 +1,11 @@
 <?php
 /**
+ * Genesis Simple Menus
+ *
+ * @package StudioPress\GenesisSimpleMenus
+ */
+
+/**
  * The Core functionality.
  *
  * @since 1.0.0
@@ -7,9 +13,18 @@
 class Genesis_Simple_Menus_Core {
 
 	/**
-	 * The Menu to use.
+	 * Primary menu.
+	 *
+	 * @var string
 	 */
-	public $menu = null;
+	public $primary = null;
+
+	/**
+	 * Secondary menu.
+	 *
+	 * @var string
+	 */
+	public $secondary = null;
 
 	/**
 	 * Initialize.
@@ -33,16 +48,18 @@ class Genesis_Simple_Menus_Core {
 
 		if ( is_singular() ) {
 
-			$obj        = get_queried_object();
-			$this->menu = get_post_meta( $obj->ID, Genesis_Simple_Menus()->entry->meta_key, true );
+			$obj             = get_queried_object();
+			$this->primary   = get_post_meta( $obj->ID, Genesis_Simple_Menus()->entry->primary_key, true );
+			$this->secondary = get_post_meta( $obj->ID, Genesis_Simple_Menus()->entry->secondary_key, true );
 			return;
 
 		}
 
 		if ( is_category() || is_tag() || is_tax() ) {
 
-			$term       = get_queried_object();
-			$this->menu = get_term_meta( $term->term_id, Genesis_Simple_Menus()->term->meta_key, true );
+			$term            = get_queried_object();
+			$this->primary   = get_term_meta( $term->term_id, Genesis_Simple_Menus()->term->primary_key, true );
+			$this->secondary = get_term_meta( $term->term_id, Genesis_Simple_Menus()->term->secondary_key, true );
 
 		}
 
@@ -51,12 +68,17 @@ class Genesis_Simple_Menus_Core {
 	/**
 	 * Filter the menu locations.
 	 *
-	 * @since 1.0.0
+	 * @since  1.0.0
+	 *
+	 * @param  array $mods Menu locations theme mods.
+	 *
+	 * @return array
 	 */
 	public function menu_locations_theme_mod( $mods ) {
 
-		if ( $this->menu ) {
-			$mods['secondary'] = (int) $this->menu;
+		if ( $this->primary || $this->secondary ) {
+			$mods['primary']   = (int) $this->primary;
+			$mods['secondary'] = (int) $this->secondary;
 		}
 
 		return $mods;
