@@ -1,20 +1,53 @@
 <?php
-/*
-Plugin Name: Genesis Simple Menus
-Plugin URI: https://github.com/copyblogger/genesis-simple-menus
+/**
+ * Plugin Name: Genesis Simple Menus
+ * Plugin URI: https://github.com/copyblogger/genesis-simple-menus
+ * Description: Genesis Simple Menus allows you to select a WordPress menu for secondary navigation on individual posts/pages.
+ * Version: 1.0.1
+ * Author: StudioPress
+ * Author URI: http://www.studiopress.com/
+ * License: GNU General Public License v2.0 (or later)
+ * License URI: https://www.opensource.org/licenses/gpl-license.php
+ *
+ * Text Domain: genesis-simple-menus
+ * Domain Path: /languages
+ *
+ * @package genesis-simple-menu
+ */
 
-Description: Genesis Simple Menus allows you to select a WordPress menu for secondary navigation on individual posts/pages.
+/**
+ * Load the plugin file.
+ */
 
-Version: 1.0.0
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
-Author: StudioPress
-Author URI: http://www.studiopress.com/
+define( 'GENESIS_SIMPLE_MENU_SETTINGS_FIELD', 'GENESIS_SIMPLE_MENU_settings' );
+define( 'GENESIS_SIMPLE_MENU_VERSION', '1.0.1' );
+define( 'GENESIS_SIMPLE_MENU_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+define( 'GENESIS_SIMPLE_MENU_PLUGIN_URL', plugins_url( '', __FILE__ ) );
 
-Text Domain: genesis-simple-menus
-Domain Path: /languages
+require_once plugin_dir_path( __FILE__ ) . 'includes/class-genesis-simple-menus.php';
 
-License: GNU General Public License v2.0 (or later)
-License URI: http://www.opensource.org/licenses/gpl-license.php
-*/
+/**
+ * Helper function to retrieve the static object without using globals.
+ *
+ * @since 1.0.0
+ */
+function genesis_simple_menus() {
 
-require_once( plugin_dir_path( __FILE__ ) . 'genesis-simple-menus.php' );
+	static $object;
+
+	if ( null === $object ) {
+		$object = new Genesis_Simple_Menus();
+	}
+
+	return $object;
+
+}
+
+/**
+ * Initialize the object on `plugins_loaded`.
+ */
+add_action( 'plugins_loaded', array( Genesis_Simple_Menus(), 'init' ) );
