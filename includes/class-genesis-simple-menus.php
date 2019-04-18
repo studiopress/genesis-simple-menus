@@ -1,5 +1,11 @@
 <?php
 /**
+ * Genesis Simple Menus Class.
+ *
+ * @package genesis-simple-menus
+ */
+
+/**
  * The main class.
  *
  * @since 0.1.0
@@ -26,13 +32,6 @@ final class Genesis_Simple_Menus {
 	 * @var string $plugin_textdomain
 	 */
 	public $plugin_textdomain = 'genesis-simple-menus';
-
-	/**
-	 * The path to the plugin directory.
-	 *
-	 * @var string
-	 */
-	public $plugin_dir_path;
 
 	/**
 	 * Core object.
@@ -96,8 +95,9 @@ final class Genesis_Simple_Menus {
 
 			$action = defined( 'PARENT_THEME_VERSION' ) ? __( 'upgrade to', 'genesis-simple-menus' ) : __( 'install and activate', 'genesis-simple-menus' );
 
+			// translators: %1$s is the plugin name, %2$s is the minor version, %3$s is the link, %4$s is the Genesis version and %5$s is the action.
 			$message = sprintf( __( '%1$s requires WordPress %2$s and <a href="%3$s" target="_blank">Genesis %4$s</a>, or greater. Please %5$s the latest version of Genesis to use this plugin.', 'genesis-simple-menus' ), $plugin['Name'], $this->min_wp_version, 'http://my.studiopress.com/?download_id=91046d629e74d525b3f2978e404e7ffa', $this->min_genesis_version, $action );
-			echo '<div class="notice notice-warning"><p>' . $message . '</p></div>';
+			echo '<div class="notice notice-warning"><p>' . wp_kses_post( $message ) . '</p></div>';
 
 		}
 

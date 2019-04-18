@@ -1,21 +1,33 @@
 <?php
 /**
  * Term Settings.
+ *
+ * @package genesis-simple-menus
+ */
+
+/**
+ * Genesis Simple Menus Term Class.
  */
 class Genesis_Simple_Menus_Term {
 
 	/**
 	 * The Menu to use.
+	 *
+	 * @var int
 	 */
 	public $menu = null;
 
 	/**
 	 * The meta key for the user specified menu.
+	 *
+	 * @var string
 	 */
 	public $meta_key = '_gsm_menu';
 
 	/**
 	 * The supported taxonomies.
+	 *
+	 * @var array
 	 */
 	public $taxonomies;
 
@@ -26,7 +38,7 @@ class Genesis_Simple_Menus_Term {
 	 */
 	public function init() {
 
-		// Add fields to the term edit form
+		// Add fields to the term edit form.
 		add_action( 'admin_init', array( $this, 'add_edit_form' ) );
 
 	}
@@ -38,7 +50,12 @@ class Genesis_Simple_Menus_Term {
 	 */
 	public function add_edit_form() {
 
-		$_taxonomies = get_taxonomies( array( 'show_ui' => true, 'public' => true ) );
+		$_taxonomies = get_taxonomies(
+			array(
+				'show_ui' => true,
+				'public'  => true,
+			)
+		);
 
 		/**
 		 * The supported taxonomies.
@@ -55,7 +72,7 @@ class Genesis_Simple_Menus_Term {
 			return;
 		}
 
-		foreach( $this->taxonomies as $tax ) {
+		foreach ( $this->taxonomies as $tax ) {
 			add_action( "{$tax}_edit_form", array( $this, 'term_edit_form' ), 9, 2 );
 		}
 
@@ -64,11 +81,14 @@ class Genesis_Simple_Menus_Term {
 	/**
 	 * The edit form fields markup.
 	 *
+	 * @param array $term Term.
+	 * @param array $taxonomy Taxonomy.
+	 *
 	 * @since 1.0.0
 	 */
 	public function term_edit_form( $term, $taxonomy ) {
 
-		require_once( Genesis_Simple_Menus()->plugin_dir_path . 'includes/views/term-edit-field.php' );
+		require_once GENESIS_SIMPLE_MENU_PLUGIN_DIR . '/includes/views/term-edit-field.php';
 
 	}
 

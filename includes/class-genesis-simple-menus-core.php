@@ -3,11 +3,19 @@
  * The Core functionality.
  *
  * @since 1.0.0
+ *
+ * @package genesis-simple-menus
+ */
+
+/**
+ * Genesis Simple Menus Core Class.
  */
 class Genesis_Simple_Menus_Core {
 
 	/**
 	 * The Menu to use.
+	 *
+	 * @var int
 	 */
 	public $menu = null;
 
@@ -50,6 +58,8 @@ class Genesis_Simple_Menus_Core {
 
 	/**
 	 * Filter the menu locations.
+	 *
+	 * @param Array $mods Theme mods.
 	 *
 	 * @since 1.0.0
 	 */
