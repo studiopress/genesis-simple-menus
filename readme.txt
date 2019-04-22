@@ -26,6 +26,7 @@ This plugin allows you to assign WordPress navigation menus to the secondary nav
 
 = 1.0.0 =
 * Fix Coding Standards issues.
+* Restructuration of files.
 
 = 1.0.0 =
 * Rewrite based on plugin boilerplate.
