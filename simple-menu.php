@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Genesis Simple Menus
  * Plugin URI: https://github.com/copyblogger/genesis-simple-menus
- * Description: Genesis Simple Menus allows you to select a WordPress menu for secondary navigation on individual posts/pages.
+ * Description: Genesis Simple Menus allows you to select a WordPress menu for secondary navigation on individual posts, pages, and taxonomies.
  * Version: 1.0.1
  * Author: StudioPress
  * Author URI: http://www.studiopress.com/
@@ -12,7 +12,7 @@
  * Text Domain: genesis-simple-menus
  * Domain Path: /languages
  *
- * @package genesis-simple-menu
+ * @package genesis-simple-menus
  */
 
 /**

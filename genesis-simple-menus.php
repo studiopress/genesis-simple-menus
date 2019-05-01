@@ -2,7 +2,7 @@
 /**
  * Genesis Simple Menus file.
  *
- * @package genesis-simple-menu
+ * @package genesis-simple-menus
  */
 
 /**
