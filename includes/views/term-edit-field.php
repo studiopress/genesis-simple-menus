@@ -42,8 +42,8 @@ $secondary_label = $menus[0]['secondary'];
 				$menus = wp_get_nav_menus( array(
 					'orderby' => 'name',
 				) );
-				foreach ( $menus as $menu ) {
-					printf( '<option value="%d" %s>%s</option>', esc_attr( $menu->term_id ), selected( $menu->term_id, get_term_meta( $term->term_id, $this->meta_key, true ), false ), esc_html( $menu->name ) );
+				foreach ( $menus as $menu_entry ) {
+					printf( '<option value="%d" %s>%s</option>', esc_attr( $menu_entry->term_id ), selected( $menu_entry->term_id, get_term_meta( $term->term_id, $this->meta_key, true ), false ), esc_html( $menu_entry->name ) );
 				}
 				?>
 			</select>

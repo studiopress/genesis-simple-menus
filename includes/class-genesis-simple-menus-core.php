@@ -9,6 +9,12 @@
  * The Core functionality.
  *
  * @since 1.0.0
+ *
+ * @package genesis-simple-menus
+ */
+
+/**
+ * Genesis Simple Menus Core Class.
  */
 class Genesis_Simple_Menus_Core {
 

@@ -9,6 +9,12 @@
  * Entry settings.
  *
  * @since 1.0.0
+ *
+ * @package genesis-simple-menus
+ */
+
+/**
+ * Genesis Simple Menus Entry Class.
  */
 class Genesis_Simple_Menus_Entry {
 
@@ -75,7 +81,6 @@ class Genesis_Simple_Menus_Entry {
 		) );
 
 		foreach ( (array) $types as $type ) {
-
 			if ( 'post' === $type || 'page' === $type || post_type_supports( $type, 'genesis-simple-menus' ) ) {
 				add_meta_box( $this->handle, __( 'Navigation', 'genesis-simple-menus' ), array( $this, 'metabox' ), $type, 'side', 'low' );
 			}
@@ -92,7 +97,7 @@ class Genesis_Simple_Menus_Entry {
 	 */
 	public function metabox() {
 
-		require_once( Genesis_Simple_Menus()->plugin_dir_path . 'includes/views/entry-metabox-content.php' );
+		require_once GENESIS_SIMPLE_MENU_PLUGIN_DIR . '/includes/views/entry-metabox-content.php';
 
 	}
 
@@ -108,6 +113,7 @@ class Genesis_Simple_Menus_Entry {
 	 */
 	public function save_post( $post_id, $post ) {
 
+		// phpcs:ignore
 		if ( ! isset( $_POST['genesis_simple_menus'] ) ) {
 			return;
 		}

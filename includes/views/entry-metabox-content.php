@@ -21,8 +21,8 @@ wp_nonce_field( $this->nonce_action, $this->nonce_key );
 	$menus = wp_get_nav_menus( array(
 		'orderby' => 'name',
 	) );
-	foreach ( $menus as $menu ) {
-		printf( '<option value="%d" %s>%s</option>', esc_attr( $menu->term_id ), selected( $menu->term_id, genesis_get_custom_field( $this->primary_key ), false ), esc_html( $menu->name ) );
+	foreach ( $menus as $menu_entry ) {
+		printf( '<option value="%d" %s>%s</option>', esc_attr( $menu_entry->term_id ), selected( $menu_entry->term_id, genesis_get_custom_field( $this->primary_key ), false ), esc_html( $menu_entry->name ) );
 	}
 	?>
 </select>
@@ -39,8 +39,8 @@ wp_nonce_field( $this->nonce_action, $this->nonce_key );
 	$menus = wp_get_nav_menus( array(
 		'orderby' => 'name',
 	) );
-	foreach ( $menus as $menu ) {
-		printf( '<option value="%d" %s>%s</option>', esc_attr( $menu->term_id ), selected( $menu->term_id, genesis_get_custom_field( $this->secondary_key ), false ), esc_html( $menu->name ) );
+	foreach ( $menus as $menu_entry ) {
+		printf( '<option value="%d" %s>%s</option>', esc_attr( $menu_entry->term_id ), selected( $menu_entry->term_id, genesis_get_custom_field( $this->secondary_key ), false ), esc_html( $menu_entry->name ) );
 	}
 	?>
 </select>

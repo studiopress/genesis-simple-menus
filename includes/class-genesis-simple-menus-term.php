@@ -7,13 +7,19 @@
 
 /**
  * Term Settings.
+ *
+ * @package genesis-simple-menus
+ */
+
+/**
+ * Genesis Simple Menus Term Class.
  */
 class Genesis_Simple_Menus_Term {
 
 	/**
 	 * The Menu to use.
 	 *
-	 * @var null
+	 * @var int
 	 */
 	public $menu = null;
 
@@ -61,10 +67,12 @@ class Genesis_Simple_Menus_Term {
 	 */
 	public function add_edit_form() {
 
-		$_taxonomies = get_taxonomies( array(
-			'show_ui' => true,
-			'public' => true,
-		) );
+		$_taxonomies = get_taxonomies(
+			array(
+				'show_ui' => true,
+				'public'  => true,
+			)
+		);
 
 		/**
 		 * The supported taxonomies.
@@ -101,7 +109,7 @@ class Genesis_Simple_Menus_Term {
 	 */
 	public function term_edit_form( $term, $taxonomy ) {
 
-		require_once( Genesis_Simple_Menus()->plugin_dir_path . 'includes/views/term-edit-field.php' );
+		require_once GENESIS_SIMPLE_MENU_PLUGIN_DIR . '/includes/views/term-edit-field.php';
 
 	}
 
