@@ -1,5 +1,11 @@
 <?php
 /**
+ * Genesis Simple Menus
+ *
+ * @package StudioPress\GenesisSimpleMenus
+ */
+
+/**
  * Term Settings.
  *
  * @package genesis-simple-menus
@@ -18,11 +24,18 @@ class Genesis_Simple_Menus_Term {
 	public $menu = null;
 
 	/**
-	 * The meta key for the user specified menu.
+	 * The meta key for the user specified primary nav menu.
 	 *
 	 * @var string
 	 */
-	public $meta_key = '_gsm_menu';
+	public $primary_key = '_gsm_primary';
+
+	/**
+	 * The meta key for the user specified secondary nav menu.
+	 *
+	 * @var string
+	 */
+	public $secondary_key = '_gsm_secondary';
 
 	/**
 	 * The supported taxonomies.
@@ -34,7 +47,9 @@ class Genesis_Simple_Menus_Term {
 	/**
 	 * Initialize.
 	 *
-	 * @since 1.0.0
+	 * @since  1.0.0
+	 *
+	 * @return void
 	 */
 	public function init() {
 
@@ -46,7 +61,9 @@ class Genesis_Simple_Menus_Term {
 	/**
 	 * Add fields to the term edit form. Added to public taxonomies only, by default.
 	 *
-	 * @since 1.0.0
+	 * @since  1.0.0
+	 *
+	 * @return void
 	 */
 	public function add_edit_form() {
 
@@ -62,9 +79,11 @@ class Genesis_Simple_Menus_Term {
 		 *
 		 * An array of supported taxonomies. All public taxonomies, by default.
 		 *
-		 * @since 0.1.0
+		 * @since  0.1.0
 		 *
-		 * @param array $taxonomies The supported taxonomies.
+		 * @param  array $taxonomies The supported taxonomies.
+		 *
+		 * @return void
 		 */
 		$this->taxonomies = apply_filters( 'genesis_simple_menus_taxonomies', array_keys( $_taxonomies ) );
 
@@ -81,10 +100,12 @@ class Genesis_Simple_Menus_Term {
 	/**
 	 * The edit form fields markup.
 	 *
-	 * @param array $term Term.
-	 * @param array $taxonomy Taxonomy.
+	 * @since  1.0.0
 	 *
-	 * @since 1.0.0
+	 * @param  string $term     The term ID.
+	 * @param  string $taxonomy Current taxonomy.
+	 *
+	 * @return void
 	 */
 	public function term_edit_form( $term, $taxonomy ) {
 

@@ -24,6 +24,8 @@ require_once plugin_dir_path( __FILE__ ) . 'includes/class-genesis-simple-menus.
  * Helper function to retrieve the static object without using globals.
  *
  * @since 1.0.0
+ *
+ * @return object
  */
 function genesis_simple_menus() {
 

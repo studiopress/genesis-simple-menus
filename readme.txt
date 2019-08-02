@@ -1,5 +1,5 @@
 === Genesis Simple Menus ===
-Contributors: wpmuguru, nathanrice, studiopress, marksabbath
+Contributors: wpmuguru, nathanrice, studiopress, seothemes, marksabbath
 Tags: genesis,genesiswp,studiopress,menu,navigation
 Requires at least: 4.4.2
 Tested up to: 5.1.1
