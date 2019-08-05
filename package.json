@@ -3,15 +3,10 @@
   "description": "Development files for the Genesis Simple Menus plugin.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/copyblogger/genesis-simple-menus"
+    "url": "https://github.com/studiopress/genesis-simple-menus"
   },
   "dependencies": {},
   "devDependencies": {
-    "grunt": "*",
-    "grunt-autoprefixer": "*",
-    "grunt-checktextdomain": "*",
-    "grunt-wp-i18n": "*",
-    "load-grunt-tasks": "*"
   },
   "plugin": {
     "name": "Genesis Simple Menus",
