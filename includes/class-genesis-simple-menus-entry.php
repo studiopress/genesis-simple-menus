@@ -76,9 +76,11 @@ class Genesis_Simple_Menus_Entry {
 	 */
 	public function add_metabox() {
 
-		$types = get_post_types( array(
-			'public' => true,
-		) );
+		$types = get_post_types(
+			array(
+				'public' => true,
+			)
+		);
 
 		foreach ( (array) $types as $type ) {
 			if ( 'post' === $type || 'page' === $type || post_type_supports( $type, 'genesis-simple-menus' ) ) {
@@ -119,10 +121,14 @@ class Genesis_Simple_Menus_Entry {
 		}
 
 		// Merge user submitted options with fallback defaults.
-		$data = wp_parse_args( $_POST['genesis_simple_menus'], array(
-			'_gsm_primary'   => '',
-			'_gsm_secondary' => '',
-		) );
+		$data = wp_parse_args(
+			// phpcs:ignore
+			$_POST['genesis_simple_menus'],
+			array(
+				'_gsm_primary'   => '',
+				'_gsm_secondary' => '',
+			)
+		);
 
 		genesis_save_custom_fields( $data, $this->nonce_action, $this->nonce_key, $post );
 
