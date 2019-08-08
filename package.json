@@ -6,8 +6,7 @@
     "url": "https://github.com/studiopress/genesis-simple-menus"
   },
   "dependencies": {},
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "plugin": {
     "name": "Genesis Simple Menus",
     "uri": "https://github.com/copyblogger/genesis-simple-menus",
