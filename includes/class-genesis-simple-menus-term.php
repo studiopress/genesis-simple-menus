@@ -35,7 +35,7 @@ class Genesis_Simple_Menus_Term {
 	 *
 	 * @var string
 	 */
-	public $secondary_key = '_gsm_secondary';
+	public $secondary_key = '_gsm_menu';
 
 	/**
 	 * The supported taxonomies.
