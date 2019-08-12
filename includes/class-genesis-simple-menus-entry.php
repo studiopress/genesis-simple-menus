@@ -37,7 +37,7 @@ class Genesis_Simple_Menus_Entry {
 	 *
 	 * @var string
 	 */
-	public $secondary_key = '_gsm_secondary';
+	public $secondary_key = '_gsm_menu';
 
 	/**
 	 * The nonce action for saving entry meta.
@@ -125,8 +125,8 @@ class Genesis_Simple_Menus_Entry {
 			// phpcs:ignore
 			$_POST['genesis_simple_menus'],
 			array(
-				'_gsm_primary'   => '',
-				'_gsm_secondary' => '',
+				'_gsm_primary' => '',
+				'_gsm_menu'    => '',
 			)
 		);
 
