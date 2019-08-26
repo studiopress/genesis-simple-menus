@@ -83,8 +83,13 @@ class Genesis_Simple_Menus_Core {
 	public function menu_locations_theme_mod( $mods ) {
 
 		if ( $this->primary || $this->secondary ) {
-			$mods['primary']   = (int) $this->primary;
-			$mods['secondary'] = (int) $this->secondary;
+			if ( ! empty( $this->primary ) ) {
+				$mods['primary'] = (int) $this->primary;
+			}
+
+			if ( ! empty( $this->secondary ) ) {
+				$mods['secondary'] = (int) $this->secondary;
+			}
 		}
 
 		return $mods;
