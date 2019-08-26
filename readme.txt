@@ -25,11 +25,11 @@ This plugin allows you to assign WordPress navigation menus to the secondary nav
 == Changelog ==
 
 = 1.1.1 =
-* Fix default menus disapearing
+* Fix issue where menus were not displaying when set to the default option.
 
 = 1.1.0 =
-* Add option for primary navigation
-* Test with WordPress 5.2.2
+* Add option for primary navigation.
+* Test with WordPress 5.2.2.
 
 = 1.0.1 =
 * Fix Coding Standards issues.
@@ -41,30 +41,30 @@ This plugin allows you to assign WordPress navigation menus to the secondary nav
 * Full support for latest WordPress and Genesis.
 
 = 0.4.0 =
-* WordPress 4.4.2 & Genesis 2.2.7 compatibility
+* WordPress 4.4.2 & Genesis 2.2.7 compatibility.
 
 = 0.3 =
-* add check for secondary menu in use by theme
-* disable save on bulk edit
+* Add check for secondary menu in use by theme.
+* Disable save on bulk edit.
 
 = 0.1.5 =
-* permission check fix
+* Permission check fix.
 
 = 0.1.4 =
-* add automatic support for custom taxonomies
+* Add automatic support for custom taxonomies.
 
 = 0.1.3.1 =
-* update for Genesis 1.6
+* Update for Genesis 1.6.
 
 = 0.1.3 =
-* add custom taxonomy support
+* Add custom taxonomy support.
 
 = 0.1.2 =
-* fix verify nonce logic
+* Fix verify nonce logic.
 
 = 0.1.1 =
-* add .pot file & register text domain
-* add a handle to the simple menu object
+* Add .pot file & register text domain.
+* Add a handle to the simple menu object.
 
 = 0.1 =
 * Original version.
