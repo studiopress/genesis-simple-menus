@@ -62,7 +62,7 @@ commands:
 executors:
   base:
     docker:
-      - image: circleci/buildpack-deps:latest
+      - image: cimg/base:current
     working_directory: /tmp
   php_node:
     docker:
