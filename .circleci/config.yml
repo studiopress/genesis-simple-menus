@@ -129,7 +129,7 @@ workflows:
       - approval-for-deploy-tested-up-to-bump:
           type: approval
           requires:
-            - test
+            - checks
           filters:
             tags:
               ignore: /.*/
