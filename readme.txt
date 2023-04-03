@@ -2,7 +2,7 @@
 Contributors: wpmuguru, nathanrice, studiopress, seothemes, marksabbath
 Tags: genesis,genesiswp,studiopress,menu,navigation
 Requires at least: 4.4.2
-Tested up to: 6.1
+Tested up to: 6.2
 Stable tag: 1.1.1
 
 With Genesis, Simple Menus allows you to select a WP menu for secondary navigation on posts, pages, categories, tags or custom taxonomies.
