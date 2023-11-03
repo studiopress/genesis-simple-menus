@@ -13,7 +13,7 @@
     "description": "Genesis Simple Menus allows you to select a WordPress menu for secondary navigation on individual posts/pages.",
     "author": "StudioPress",
     "authoruri": "http://www.studiopress.com/",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "license": "GPL-2.0-or-later",
     "licenseuri": "http://www.gnu.org/licenses/gpl-2.0.html",
     "textdomain": "genesis-simple-menus"
