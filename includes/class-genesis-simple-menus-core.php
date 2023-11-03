@@ -40,7 +40,6 @@ class Genesis_Simple_Menus_Core {
 	public function init() {
 
 		add_action( 'wp_head', array( $this, 'swap_menus' ) );
-
 	}
 
 	/**
@@ -68,7 +67,6 @@ class Genesis_Simple_Menus_Core {
 			$this->secondary = get_term_meta( $term->term_id, Genesis_Simple_Menus()->term->secondary_key, true );
 
 		}
-
 	}
 
 	/**
@@ -93,7 +91,5 @@ class Genesis_Simple_Menus_Core {
 		}
 
 		return $mods;
-
 	}
-
 }
