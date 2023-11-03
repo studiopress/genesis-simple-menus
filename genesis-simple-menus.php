@@ -36,7 +36,6 @@ function genesis_simple_menus() {
 	}
 
 	return $object;
-
 }
 
 /**

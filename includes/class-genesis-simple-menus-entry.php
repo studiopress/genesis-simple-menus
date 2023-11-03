@@ -64,7 +64,6 @@ class Genesis_Simple_Menus_Entry {
 
 		add_action( 'admin_menu', array( $this, 'add_metabox' ) );
 		add_action( 'save_post', array( $this, 'save_post' ), 10, 2 );
-
 	}
 
 	/**
@@ -87,7 +86,6 @@ class Genesis_Simple_Menus_Entry {
 				add_meta_box( $this->handle, __( 'Navigation', 'genesis-simple-menus' ), array( $this, 'metabox' ), $type, 'side', 'low' );
 			}
 		}
-
 	}
 
 	/**
@@ -100,7 +98,6 @@ class Genesis_Simple_Menus_Entry {
 	public function metabox() {
 
 		require_once GENESIS_SIMPLE_MENU_PLUGIN_DIR . '/includes/views/entry-metabox-content.php';
-
 	}
 
 	/**
@@ -131,7 +128,5 @@ class Genesis_Simple_Menus_Entry {
 		);
 
 		genesis_save_custom_fields( $data, $this->nonce_action, $this->nonce_key, $post );
-
 	}
-
 }
