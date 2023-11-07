@@ -64,9 +64,9 @@ executors:
     docker:
       - image: cimg/base:current
     working_directory: /tmp
-  php_node:
+  php:
     docker:
-      - image: cimg/php:8.2-node
+      - image: wordpress:php8.2-fpm-alpine
     working_directory: /tmp/src
 
 jobs:
@@ -82,10 +82,23 @@ jobs:
             - src
 
   checks:
-    executor: php_node
+    executor: php
     steps:
       - attach_workspace:
           at: /tmp
+      - run:
+          name: Install Composer
+          command: |
+            mkdir -p ~/project/bin
+            cd ~/project/bin
+            echo 'export PATH=$HOME/project/bin:$PATH' >> $BASH_ENV
+            source $BASH_ENV
+            php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+            EXPECTED_SIGNATURE=$(curl -s https://composer.github.io/installer.sig)
+            ACTUAL_SIGNATURE=$(php -r "echo hash_file('sha384', 'composer-setup.php');")
+            [[ "$EXPECTED_SIGNATURE" == "$ACTUAL_SIGNATURE" ]] && php composer-setup.php --install-dir=/root/project/bin --filename=composer || exit 1
+            rm composer-setup.php
+            composer config -g github-protocols https && composer config -g repo.packagist composer https://packagist.org
       - install_dependencies
       - run: composer phpcs
 
