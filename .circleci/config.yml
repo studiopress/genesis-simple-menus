@@ -86,7 +86,6 @@ jobs:
     steps:
       - attach_workspace:
           at: /tmp
-      - checkout
       - run:
           name: Install Composer
           command: |
