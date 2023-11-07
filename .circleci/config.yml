@@ -101,7 +101,6 @@ jobs:
             rm composer-setup.php
             composer config -g github-protocols https && composer config -g repo.packagist composer https://packagist.org
       - install_dependencies
-      - run: php -i
       - run: composer phpcs
 
   deploy_svn_branch:
