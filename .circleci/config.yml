@@ -87,6 +87,7 @@ jobs:
       - attach_workspace:
           at: /tmp
       - install_dependencies
+      - run: php -i
       - run: composer phpcs
 
   deploy_svn_branch:
