@@ -49,6 +49,7 @@ add_action( 'plugins_loaded', array( Genesis_Simple_Menus(), 'init' ) );
 function genesis_simple_menus_check_for_upgrades() {
 	$properties = array(
 		'plugin_slug'     => 'genesis-simple-menus',
+		// phpcs:ignore
 		'plugin_basename' => plugin_basename( dirname( __FILE__ ) . '/simple-menu.php' ),
 	);
 
