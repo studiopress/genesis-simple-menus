@@ -5,8 +5,14 @@
     "type": "git",
     "url": "https://github.com/studiopress/genesis-simple-menus"
   },
+  "scripts": {
+		"zip": "node scripts/create-zip.js"
+  },
   "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "adm-zip": "^0.5.16",
+    "minimatch": "^10.0.1"
+  },
   "plugin": {
     "name": "Genesis Simple Menus",
     "uri": "https://github.com/copyblogger/genesis-simple-menus",
