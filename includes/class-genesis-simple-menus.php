@@ -116,6 +116,10 @@ final class Genesis_Simple_Menus {
 	 */
 	public function instantiate() {
 
+		if ( ! function_exists( 'genesis_nav_menu_supported' ) ) {
+			return;
+		}
+
 		// Do nothing if secondary menu isn't supported.
 		if ( ! genesis_nav_menu_supported( 'secondary' ) ) {
 			return;
