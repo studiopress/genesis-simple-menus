@@ -76,7 +76,7 @@ final class Genesis_Simple_Menus {
 		/**
 		 * Include and Instantiate.
 		 */
-		add_action( 'genesis_setup', array( $this, 'instantiate' ) );
+		add_action( 'after_setup_theme', array( $this, 'instantiate' ), 11 );
 	}
 
 
