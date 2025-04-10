@@ -16,7 +16,7 @@ commands:
           command: |
             [ ! -d "/tmp/artifacts" ] && mkdir /tmp/artifacts &>/dev/null
 
-  set_verision_variable:
+  set_version_variable:
     description: "Set the VERSION environment variable"
     steps:
       - run:
@@ -50,13 +50,13 @@ commands:
   svn_create_tag:
     description: "Create a SVN tag"
     steps:
-      - set_verision_variable
+      - set_version_variable
       - run: svn cp trunk tags/${VERSION}
 
   svn_commit:
     description: "Commit changes to SVN"
     steps:
-      - set_verision_variable
+      - set_version_variable
       - run: svn ci -m "Tagging ${VERSION} from Github" --no-auth-cache --non-interactive --username "${SVN_USERNAME}" --password "${SVN_PASSWORD}"
 
 executors:
