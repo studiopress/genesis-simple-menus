@@ -1,17 +1,20 @@
 {
   "name": "genesis-simple-menus",
+	"version": "1.1.3",
   "description": "Development files for the Genesis Simple Menus plugin.",
   "repository": {
     "type": "git",
     "url": "https://github.com/studiopress/genesis-simple-menus"
   },
   "scripts": {
-		"zip": "node scripts/create-zip.js",
-		"zip:wpe": "node scripts/create-zip.js --wpe"
+    "zip": "node scripts/create-zip.js",
+    "zip:wpe": "node scripts/create-zip.js --wpe && node scripts/create-info.js",
+    "zip:wpe:info": "node scripts/create-info.js",
+    "zip:all": "node scripts/create-zip.js && node scripts/create-zip.js --wpe && node scripts/create-info.js"
   },
-  "dependencies": {},
   "devDependencies": {
     "adm-zip": "^0.5.16",
+    "ajv": "^8.17.1",
     "minimatch": "^10.0.1"
   },
   "plugin": {
