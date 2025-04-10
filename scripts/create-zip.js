@@ -31,6 +31,14 @@ function cleanupPluginUpdater() {
 	}
 }
 
+function ensureBuildDirectory(wpe = false) {
+	const buildDir = path.join(process.cwd(), 'artifacts', wpe ? 'wpe' : 'wp.org');
+	if (!fs.existsSync(buildDir)) {
+		fs.mkdirSync(buildDir, { recursive: true });
+	}
+	return buildDir;
+}
+
 function getIgnorePatterns() {
 	const distignore = fs.readFileSync(".svnignore", "utf8");
 	return distignore
@@ -72,7 +80,8 @@ function createZip(wpe = false) {
 
 	const version = getPluginVersion();
 	const ignorePatterns = getIgnorePatterns();
-	const zipFileName = `genesis-simple-menus.${version}.zip`;
+	const buildDir = ensureBuildDirectory(wpe);
+	const zipFileName = path.join(buildDir, `genesis-simple-menus.${version}.zip`);
 
 	const zip = new AdmZip();
 
