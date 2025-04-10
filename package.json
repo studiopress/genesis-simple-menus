@@ -6,7 +6,8 @@
     "url": "https://github.com/studiopress/genesis-simple-menus"
   },
   "scripts": {
-		"zip": "node scripts/create-zip.js"
+		"zip": "node scripts/create-zip.js",
+		"zip:wpe": "node scripts/create-zip.js --wpe"
   },
   "dependencies": {},
   "devDependencies": {

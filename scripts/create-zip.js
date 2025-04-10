@@ -10,6 +10,27 @@ function getPluginVersion() {
 	return versionMatch ? versionMatch[1].trim() : "unknown";
 }
 
+function copyPluginUpdater() {
+	const sourcePath = path.join(process.cwd(), 'scripts', 'class-genesis-simple-menus-plugin-updater.php');
+	const targetPath = path.join(process.cwd(), 'includes', 'class-genesis-simple-menus-plugin-updater.php');
+
+	const includesDir = path.dirname(targetPath);
+	if (!fs.existsSync(includesDir)) {
+		fs.mkdirSync(includesDir, { recursive: true });
+	}
+
+	fs.copyFileSync(sourcePath, targetPath);
+	console.log('Copied class-genesis-simple-menus-plugin-updater.php to includes directory');
+}
+
+function cleanupPluginUpdater() {
+	const targetPath = path.join(process.cwd(), 'includes', 'class-genesis-simple-menus-plugin-updater.php');
+	if (fs.existsSync(targetPath)) {
+		fs.unlinkSync(targetPath);
+		console.log('Cleaned up class-genesis-simple-menus-plugin-updater.php from includes directory');
+	}
+}
+
 function getIgnorePatterns() {
 	const distignore = fs.readFileSync(".svnignore", "utf8");
 	return distignore
@@ -42,8 +63,12 @@ function runBuildSteps() {
 	}
 }
 
-function createZip() {
+function createZip(wpe = false) {
 	runBuildSteps();
+
+	if (wpe) {
+		copyPluginUpdater();
+	}
 
 	const version = getPluginVersion();
 	const ignorePatterns = getIgnorePatterns();
@@ -77,6 +102,11 @@ function createZip() {
 
 	zip.writeZip(zipFileName);
 	console.log(`Created ${zipFileName}`);
+
+	if (wpe) {
+		cleanupPluginUpdater();
+	}
 }
 
-createZip();
+const wpeFlag = process.argv.includes('--wpe');
+createZip(wpeFlag);
