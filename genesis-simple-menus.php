@@ -45,8 +45,15 @@ add_action( 'plugins_loaded', array( Genesis_Simple_Menus(), 'init' ) );
 
 /**
  * Initialize checking of plugin updates from WP Engine.
+ *
+ * Only if the updater PHP file exists. This file is not present in the version
+ * released to the WordPress.org repository.
  */
 function genesis_simple_menus_check_for_upgrades() {
+	if ( ! file_exists( __DIR__ . '/includes/class-genesis-simple-menus-plugin-updater.php' ) ) {
+		return;
+	}
+
 	$properties = array(
 		'plugin_slug'     => 'genesis-simple-menus',
 		// phpcs:ignore
