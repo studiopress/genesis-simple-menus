@@ -76,7 +76,7 @@ final class Genesis_Simple_Menus {
 		/**
 		 * Include and Instantiate.
 		 */
-		add_action( 'genesis_setup', array( $this, 'instantiate' ) );
+		add_action( 'after_setup_theme', array( $this, 'instantiate' ), 11 );
 	}
 
 
@@ -115,6 +115,10 @@ final class Genesis_Simple_Menus {
 	 * @since 1.0.0
 	 */
 	public function instantiate() {
+
+		if ( ! function_exists( 'genesis_nav_menu_supported' ) ) {
+			return;
+		}
 
 		// Do nothing if secondary menu isn't supported.
 		if ( ! genesis_nav_menu_supported( 'secondary' ) ) {
