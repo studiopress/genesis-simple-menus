@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   wp-svn: studiopress/wp-svn@0.1
+  node: circleci/node@5.0.2
 
 commands:
   install_dependencies:
@@ -58,6 +59,26 @@ commands:
     steps:
       - set_version_variable
       - run: svn ci -m "Tagging ${VERSION} from Github" --no-auth-cache --non-interactive --username "${SVN_USERNAME}" --password "${SVN_PASSWORD}"
+
+  create_zip_artifacts:
+    description: "Create zip artifacts for WP.org (for testing) and WPE (manual deployment)"
+    steps:
+      - node/install:
+          install-yarn: false
+      - run:
+          name: Install WP-CLI
+          command: |
+            curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+            chmod +x wp-cli.phar
+            mv wp-cli.phar /usr/local/bin/wp
+      - run:
+          name: Install dependencies and create zip
+          command: |
+            npm install
+            npm run zip:all
+      - store_artifacts:
+          path: artifacts
+          destination: artifacts
 
 executors:
   base:
@@ -123,6 +144,13 @@ jobs:
       - svn_add_changes
       - svn_commit
 
+  create_artifacts:
+    executor: php
+    steps:
+      - attach_workspace:
+          at: /tmp
+      - create_zip_artifacts
+
 workflows:
   version: 2
   test-deploy:
@@ -133,6 +161,13 @@ workflows:
               ignore:
                 - master
       - checks:
+          requires:
+            - checkout
+          filters:
+            branches:
+              ignore:
+                - master
+      - create_artifacts:
           requires:
             - checkout
           filters:
@@ -167,6 +202,13 @@ workflows:
             branches:
               only:
                 - master
+      - create_artifacts:
+          requires:
+            - checkout
+          filters:
+            branches:
+              only:
+                - master
       - deploy_svn_branch:
           context: genesis-svn
           requires:
@@ -185,6 +227,14 @@ workflows:
             branches:
               ignore: /.*/
       - checks:
+          requires:
+            - checkout
+          filters:
+            tags:
+              only: /^\d+\.\d+\.\d+$/
+            branches:
+              ignore: /.*/
+      - create_artifacts:
           requires:
             - checkout
           filters:
