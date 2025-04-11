@@ -2,14 +2,9 @@ version: 2.1
 
 orbs:
   wp-svn: studiopress/wp-svn@0.1
-  node: circleci/node@5.0.2
+  node: circleci/node@7.1.0
 
 commands:
-  install_dependencies:
-    description: "Install development dependencies."
-    steps:
-      - run: composer install
-
   mkdir_artifacts:
     description: "Make Artifacts directory"
     steps:
@@ -63,21 +58,27 @@ commands:
   create_zip_artifacts:
     description: "Create zip artifacts for WP.org (for testing) and WPE (manual deployment)"
     steps:
-      - node/install:
-          install-yarn: false
+      - node/install
+      - node/install-packages:
+          app-dir: /tmp/src
+          override-ci-command: npm install
       - run:
           name: Install WP-CLI
           command: |
+            echo "Installing WP-CLI..."
             curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
             chmod +x wp-cli.phar
-            mv wp-cli.phar /usr/local/bin/wp
+            sudo mv wp-cli.phar /usr/local/bin/wp
+            wp --info
       - run:
-          name: Install dependencies and create zip
+          name: Create zips and info.json
           command: |
-            npm install
+            cd /tmp/src
+            echo "Node.js version: $(node --version)"
+            echo "npm version: $(npm --version)"
             npm run zip:all
       - store_artifacts:
-          path: artifacts
+          path: /tmp/src/artifacts
           destination: artifacts
 
 executors:
@@ -87,7 +88,7 @@ executors:
     working_directory: /tmp
   php:
     docker:
-      - image: wordpress:php8.2-fpm-alpine
+      - image: cimg/php:8.2-node
     working_directory: /tmp/src
 
 jobs:
@@ -108,20 +109,12 @@ jobs:
       - attach_workspace:
           at: /tmp
       - run:
-          name: Install Composer
+          name: Run phpcs
           command: |
-            mkdir -p ~/project/bin
-            cd ~/project/bin
-            echo 'export PATH=$HOME/project/bin:$PATH' >> $BASH_ENV
-            source $BASH_ENV
-            php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-            EXPECTED_SIGNATURE=$(curl -s https://composer.github.io/installer.sig)
-            ACTUAL_SIGNATURE=$(php -r "echo hash_file('sha384', 'composer-setup.php');")
-            [[ "$EXPECTED_SIGNATURE" == "$ACTUAL_SIGNATURE" ]] && php composer-setup.php --install-dir=/root/project/bin --filename=composer || exit 1
-            rm composer-setup.php
-            composer config -g github-protocols https && composer config -g repo.packagist composer https://packagist.org
-      - install_dependencies
-      - run: composer phpcs
+            cd /tmp/src
+            echo "Composer version: $(composer --version)"
+            composer install
+            composer phpcs
 
   deploy_svn_branch:
     executor: base
