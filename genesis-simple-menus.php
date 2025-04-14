@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 define( 'GENESIS_SIMPLE_MENU_SETTINGS_FIELD', 'genesis_simple_menu_settings' );
-define( 'GENESIS_SIMPLE_MENU_VERSION', '1.1.3' );
+define( 'GENESIS_SIMPLE_MENU_VERSION', '1.1.4' );
 define( 'GENESIS_SIMPLE_MENU_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'GENESIS_SIMPLE_MENU_PLUGIN_URL', plugins_url( '', __FILE__ ) );
 
@@ -45,8 +45,15 @@ add_action( 'plugins_loaded', array( Genesis_Simple_Menus(), 'init' ) );
 
 /**
  * Initialize checking of plugin updates from WP Engine.
+ *
+ * Only if the updater PHP file exists. This file is not present in the version
+ * released to the WordPress.org repository.
  */
 function genesis_simple_menus_check_for_upgrades() {
+	if ( ! file_exists( __DIR__ . '/includes/class-genesis-simple-menus-plugin-updater.php' ) ) {
+		return;
+	}
+
 	$properties = array(
 		'plugin_slug'     => 'genesis-simple-menus',
 		// phpcs:ignore

@@ -1,3 +1,4 @@
+.editorconfig
 .git
 .gitignore
 .gitattributes
@@ -12,3 +13,4 @@ package.json
 package-lock.json
 scripts/
 *.zip
+artifacts/

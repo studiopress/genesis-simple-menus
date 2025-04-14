@@ -1,14 +1,10 @@
 version: 2.1
 
-# orbs:
-#   wp-svn: studiopress/wp-svn@0.1
+orbs:
+  wp-svn: studiopress/wp-svn@0.1
+  node: circleci/node@7.1.0
 
 commands:
-  install_dependencies:
-    description: "Install development dependencies."
-    steps:
-      - run: composer install
-
   mkdir_artifacts:
     description: "Make Artifacts directory"
     steps:
@@ -16,48 +12,74 @@ commands:
           command: |
             [ ! -d "/tmp/artifacts" ] && mkdir /tmp/artifacts &>/dev/null
 
-  # set_verision_variable:
-  #   description: "Set the VERSION environment variable"
-  #   steps:
-  #     - run:
-  #         command: |
-  #           echo "export VERSION=$(grep 'Version:' /tmp/src/genesis-simple-menus.php | awk -F: '{print $2}' | sed 's/^\s//')" >> ${BASH_ENV}
+  set_version_variable:
+    description: "Set the VERSION environment variable"
+    steps:
+      - run:
+          command: |
+            echo "export VERSION=$(grep 'Version:' /tmp/src/genesis-simple-menus.php | awk -F: '{print $2}' | sed 's/^\s//')" >> ${BASH_ENV}
 
-  # show_pwd_info:
-  #   description: "Show information about the current directory"
-  #   steps:
-  #     - run: pwd
-  #     - run: ls -lash
+  show_pwd_info:
+    description: "Show information about the current directory"
+    steps:
+      - run: pwd
+      - run: ls -lash
 
-  # svn_setup:
-  #   description: "Setup SVN"
-  #   steps:
-  #     - run: echo "export SLUG=$(grep '@package' /tmp/src/genesis-simple-menus.php | awk -F ' ' '{print $3}' | sed 's/^\s//')" >> ${BASH_ENV}
-  #     - run: svn co https://plugins.svn.wordpress.org/${SLUG} --depth=empty .
-  #     - run: svn up trunk
-  #     - run: svn up tags --depth=empty
-  #     - run: find ./trunk -not -path "./trunk" -delete
-  #     - run: cp -r /tmp/src/. ./trunk
-  #     - run: svn propset svn:ignore -F ./trunk/.svnignore ./trunk
+  svn_setup:
+    description: "Setup SVN"
+    steps:
+      - run: echo "export SLUG=$(grep '@package' /tmp/src/genesis-simple-menus.php | awk -F ' ' '{print $3}' | sed 's/^\s//')" >> ${BASH_ENV}
+      - run: svn co https://plugins.svn.wordpress.org/${SLUG} --depth=empty .
+      - run: svn up trunk
+      - run: svn up tags --depth=empty
+      - run: find ./trunk -not -path "./trunk" -delete
+      - run: cp -r /tmp/src/. ./trunk
+      - run: svn propset svn:ignore -F ./trunk/.svnignore ./trunk
 
-  # svn_add_changes:
-  #   description: "Add changes to SVN"
-  #   steps:
-  #     - run:
-  #         command: if [[ ! -z $(svn st | grep ^\!) ]]; then svn st | grep ^! | awk '{print " --force "$2}' | xargs -0r svn rm; fi
-  #     - run: svn add --force .
+  svn_add_changes:
+    description: "Add changes to SVN"
+    steps:
+      - run:
+          command: if [[ ! -z $(svn st | grep ^\!) ]]; then svn st | grep ^! | awk '{print " --force "$2}' | xargs -0r svn rm; fi
+      - run: svn add --force .
 
-  # svn_create_tag:
-  #   description: "Create a SVN tag"
-  #   steps:
-  #     - set_verision_variable
-  #     - run: svn cp trunk tags/${VERSION}
+  svn_create_tag:
+    description: "Create a SVN tag"
+    steps:
+      - set_version_variable
+      - run: svn cp trunk tags/${VERSION}
 
-  # svn_commit:
-  #   description: "Commit changes to SVN"
-  #   steps:
-  #     - set_verision_variable
-  #     - run: svn ci -m "Tagging ${VERSION} from Github" --no-auth-cache --non-interactive --username "${SVN_USERNAME}" --password "${SVN_PASSWORD}"
+  svn_commit:
+    description: "Commit changes to SVN"
+    steps:
+      - set_version_variable
+      - run: svn ci -m "Tagging ${VERSION} from Github" --no-auth-cache --non-interactive --username "${SVN_USERNAME}" --password "${SVN_PASSWORD}"
+
+  create_zip_artifacts:
+    description: "Create zip artifacts for WP.org (for testing) and WPE (manual deployment)"
+    steps:
+      - node/install
+      - node/install-packages:
+          app-dir: /tmp/src
+          override-ci-command: npm install
+      - run:
+          name: Install WP-CLI
+          command: |
+            echo "Installing WP-CLI..."
+            curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+            chmod +x wp-cli.phar
+            sudo mv wp-cli.phar /usr/local/bin/wp
+            wp --info
+      - run:
+          name: Create zips and info.json
+          command: |
+            cd /tmp/src
+            echo "Node.js version: $(node --version)"
+            echo "npm version: $(npm --version)"
+            npm run zip:all
+      - store_artifacts:
+          path: /tmp/src/artifacts
+          destination: artifacts
 
 executors:
   base:
@@ -66,7 +88,7 @@ executors:
     working_directory: /tmp
   php:
     docker:
-      - image: wordpress:php8.2-fpm-alpine
+      - image: cimg/php:8.2-node
     working_directory: /tmp/src
 
 jobs:
@@ -87,41 +109,40 @@ jobs:
       - attach_workspace:
           at: /tmp
       - run:
-          name: Install Composer
+          name: Run phpcs
           command: |
-            mkdir -p ~/project/bin
-            cd ~/project/bin
-            echo 'export PATH=$HOME/project/bin:$PATH' >> $BASH_ENV
-            source $BASH_ENV
-            php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-            EXPECTED_SIGNATURE=$(curl -s https://composer.github.io/installer.sig)
-            ACTUAL_SIGNATURE=$(php -r "echo hash_file('sha384', 'composer-setup.php');")
-            [[ "$EXPECTED_SIGNATURE" == "$ACTUAL_SIGNATURE" ]] && php composer-setup.php --install-dir=/root/project/bin --filename=composer || exit 1
-            rm composer-setup.php
-            composer config -g github-protocols https && composer config -g repo.packagist composer https://packagist.org
-      - install_dependencies
-      - run: composer phpcs
+            cd /tmp/src
+            echo "Composer version: $(composer --version)"
+            composer install
+            composer phpcs
 
-  # deploy_svn_branch:
-  #   executor: base
-  #   working_directory: /tmp/artifacts
-  #   steps:
-  #     - attach_workspace:
-  #         at: /tmp
-  #     - svn_setup
-  #     - svn_add_changes
-  #     - svn_commit
+  deploy_svn_branch:
+    executor: base
+    working_directory: /tmp/artifacts
+    steps:
+      - attach_workspace:
+          at: /tmp
+      - svn_setup
+      - svn_add_changes
+      - svn_commit
 
-  # deploy_svn_tag:
-  #   executor: base
-  #   working_directory: /tmp/artifacts
-  #   steps:
-  #     - attach_workspace:
-  #         at: /tmp
-  #     - svn_setup
-  #     - svn_create_tag
-  #     - svn_add_changes
-  #     - svn_commit
+  deploy_svn_tag:
+    executor: base
+    working_directory: /tmp/artifacts
+    steps:
+      - attach_workspace:
+          at: /tmp
+      - svn_setup
+      - svn_create_tag
+      - svn_add_changes
+      - svn_commit
+
+  create_artifacts:
+    executor: php
+    steps:
+      - attach_workspace:
+          at: /tmp
+      - create_zip_artifacts
 
 workflows:
   version: 2
@@ -139,65 +160,87 @@ workflows:
             branches:
               ignore:
                 - master
-      # - approval-for-deploy-tested-up-to-bump:
-      #     type: approval
-      #     requires:
-      #       - checks
-      #     filters:
-      #       tags:
-      #         ignore: /.*/
-      #       branches:
-      #         only: /^bump-tested-up-to.*/
-      # - wp-svn/deploy-tested-up-to-bump:
-      #     context: genesis-svn
-      #     requires:
-      #       - approval-for-deploy-tested-up-to-bump
+      - create_artifacts:
+          requires:
+            - checkout
+          filters:
+            branches:
+              ignore:
+                - master
+      - approval-for-deploy-tested-up-to-bump:
+          type: approval
+          requires:
+            - checks
+          filters:
+            tags:
+              ignore: /.*/
+            branches:
+              only: /^bump-tested-up-to.*/
+      - wp-svn/deploy-tested-up-to-bump:
+          context: genesis-svn
+          requires:
+            - approval-for-deploy-tested-up-to-bump
 
-  # branch_deploy:
-  #   jobs:
-  #     - checkout:
-  #         filters:
-  #           branches:
-  #             only:
-  #               - master
-  #     - checks:
-  #         requires:
-  #           - checkout
-  #         filters:
-  #           branches:
-  #             only:
-  #               - master
-  #     - deploy_svn_branch:
-  #         context: genesis-svn
-  #         requires:
-  #           - checks
-  #         filters:
-  #           branches:
-  #             only:
-  #               - master
+  branch_deploy:
+    jobs:
+      - checkout:
+          filters:
+            branches:
+              only:
+                - master
+      - checks:
+          requires:
+            - checkout
+          filters:
+            branches:
+              only:
+                - master
+      - create_artifacts:
+          requires:
+            - checkout
+          filters:
+            branches:
+              only:
+                - master
+      - deploy_svn_branch:
+          context: genesis-svn
+          requires:
+            - checks
+          filters:
+            branches:
+              only:
+                - master
 
-  # tag_deploy:
-  #   jobs:
-  #     - checkout:
-  #         filters:
-  #           tags:
-  #             only: /^\d+\.\d+\.\d+$/
-  #           branches:
-  #             ignore: /.*/
-  #     - checks:
-  #         requires:
-  #           - checkout
-  #         filters:
-  #           tags:
-  #             only: /^\d+\.\d+\.\d+$/
-  #           branches:
-  #             ignore: /.*/
-  #     - deploy_svn_tag:
-  #         context: genesis-svn
-  #         requires:
-  #           - checks
-  #         filters:
-  #           tags:
-  #             only: /^\d+\.\d+\.\d+$/
-  #           branches:
-  #             ignore: /.*/
+  tag_deploy:
+    jobs:
+      - checkout:
+          filters:
+            tags:
+              only: /^\d+\.\d+\.\d+$/
+            branches:
+              ignore: /.*/
+      - checks:
+          requires:
+            - checkout
+          filters:
+            tags:
+              only: /^\d+\.\d+\.\d+$/
+            branches:
+              ignore: /.*/
+      - create_artifacts:
+          requires:
+            - checkout
+          filters:
+            tags:
+              only: /^\d+\.\d+\.\d+$/
+            branches:
+              ignore: /.*/
+      - deploy_svn_tag:
+          context: genesis-svn
+          requires:
+            - checks
+          filters:
+            tags:
+              only: /^\d+\.\d+\.\d+$/
+            branches:
+              ignore: /.*/
