@@ -100,14 +100,12 @@ class Genesis_Simple_Menus_Term {
 	 *
 	 * @since  1.0.0
 	 *
-	 * @param  string $term     The term ID.
-	 * @param  string $taxonomy Current taxonomy.
+	 * @param  WP_Term $term     The term object.
+	 * @param  string  $taxonomy Current taxonomy.
 	 *
 	 * @return void
 	 */
-	public function term_edit_form( $term, $taxonomy ) {
-		unset( $term, $taxonomy );
-
+	public function term_edit_form( $term, $taxonomy ) { // phpcs:ignore -- $term is used in the included template.
 		require_once GENESIS_SIMPLE_MENU_PLUGIN_DIR . '/includes/views/term-edit-field.php';
 	}
 }
