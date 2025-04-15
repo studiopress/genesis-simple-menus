@@ -17,7 +17,7 @@ commands:
     steps:
       - run:
           command: |
-            echo "export VERSION=$(grep 'Version:' /tmp/src/simple-menu.php | awk -F: '{print $2}' | tr -d ' ')" >> ${BASH_ENV}
+            echo "export VERSION=$(awk '$2 == "Version:" {print $3}' /tmp/src/simple-menu.php)" >> ${BASH_ENV}
             source ${BASH_ENV}
             echo "VERSION set to: ${VERSION}"
 
