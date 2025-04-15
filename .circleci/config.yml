@@ -17,7 +17,7 @@ commands:
     steps:
       - run:
           command: |
-            echo "export VERSION=$(grep 'Version:' /tmp/src/genesis-simple-menus.php | awk -F: '{print $2}' | sed 's/^\s//')" >> ${BASH_ENV}
+            echo "export VERSION=$(grep 'Version:' /tmp/src/simple-menu.php | awk -F: '{print $2}' | tr -d ' ')" >> ${BASH_ENV}"
 
   show_pwd_info:
     description: "Show information about the current directory"
