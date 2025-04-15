@@ -17,7 +17,9 @@ commands:
     steps:
       - run:
           command: |
-            echo "export VERSION=$(grep 'Version:' /tmp/src/genesis-simple-menus.php | awk -F: '{print $2}' | sed 's/^\s//')" >> ${BASH_ENV}
+            echo "export VERSION=$(awk '$2 == "Version:" {print $3}' /tmp/src/simple-menu.php)" >> ${BASH_ENV}
+            source ${BASH_ENV}
+            echo "VERSION set to: ${VERSION}"
 
   show_pwd_info:
     description: "Show information about the current directory"
@@ -108,6 +110,7 @@ jobs:
     steps:
       - attach_workspace:
           at: /tmp
+      - set_version_variable
       - run:
           name: Run phpcs
           command: |
