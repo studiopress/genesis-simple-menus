@@ -30,7 +30,7 @@ This plugin allows you to assign WordPress navigation menus to the secondary nav
 * Fix term Navigation drop-downs to display selected menus.
 
 = 1.1.3 =
-* Genesis Simple Menus now uses its own update mechanism from WP Engine servers.
+* Genesis Simple Menus now uses its own update mechanism from WP Engine servers (except for the version deployed to WP.org).
 
 = 1.1.2 =
 * Bump the minimum required PHP version to 8.1.
