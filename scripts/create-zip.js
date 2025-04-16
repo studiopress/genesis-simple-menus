@@ -40,7 +40,7 @@ function ensureBuildDirectory(wpe = false) {
 }
 
 function getIgnorePatterns() {
-	const distignore = fs.readFileSync(".svnignore", "utf8");
+	const distignore = fs.readFileSync(".distignore", "utf8");
 	return distignore
 		.split("\n")
 		.map((line) => line.trim())
