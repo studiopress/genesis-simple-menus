@@ -2,7 +2,7 @@
 .git
 .gitignore
 .gitattributes
-.svnignore
+.distignore
 .nvmrc
 .circleci/
 .DS_Store
