@@ -133,6 +133,21 @@ async function createInfoJson() {
         info.requires = requiresMatch[1];
         info.tested = testedMatch[1];
         info.requires_php = requiresPhpMatch[1];
+        info.author_profile = info.author_profile ?? '';
+
+        // Normalize fields that the remote API may return in alternate shapes.
+        if (typeof info.author === 'object' && info.author !== null) {
+            info.author = info.author.display_name || info.author.name || '';
+        }
+        if (Array.isArray(info.contributors)) {
+            info.contributors = Object.fromEntries(
+                info.contributors.map(({ name, profile, avatar, display_name }) => [
+                    name,
+                    { profile, avatar, display_name },
+                ])
+            );
+        }
+        info.sections.reviews = info.sections.reviews ?? '';
 
         // Update changelog
         info.sections.changelog = changelogHtml;
