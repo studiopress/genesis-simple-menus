@@ -2,7 +2,7 @@
 Contributors: wpmuguru, nathanrice, studiopress, seothemes, marksabbath
 Tags: genesis,genesiswp,studiopress,menu,navigation
 Requires at least: 4.4.2
-Tested up to: 6.9
+Tested up to: 7.0
 Stable tag: 1.1.4
 Requires PHP: 8.1
 
